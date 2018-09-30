@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import NavBarComponent from "./component/NavBarComponent";
 import SignUpComponent from "./component/SignUpComponent";
+import { Route, Switch } from 'react-router-dom'
+import HomeComponent from "./component/HomeComponent";
+import FlashMessageList from "./component/flash/FlashMessageList";
 
 class App extends Component {
   render() {
@@ -8,7 +11,11 @@ class App extends Component {
       <div className="App">
           <div className="container">
               <NavBarComponent />
-              <SignUpComponent />
+              <FlashMessageList/>
+              <Switch>
+                  <Route path="/signup" exact  component={SignUpComponent} />
+                  <Route path="/" exact component={HomeComponent} />
+              </Switch>
           </div>
       </div>
     );
