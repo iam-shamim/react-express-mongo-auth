@@ -4,6 +4,7 @@ import SignUpComponent from "./component/SignUpComponent";
 import { Route, Switch } from 'react-router-dom'
 import HomeComponent from "./component/HomeComponent";
 import FlashMessageList from "./component/flash/FlashMessageList";
+import LoginComponent from "./component/LoginComponent";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
               <FlashMessageList/>
               <Switch>
                   <Route path="/signup" exact  component={SignUpComponent} />
+                  <Route path="/login" exact  component={LoginComponent} />
                   <Route path="/" exact component={HomeComponent} />
               </Switch>
           </div>
