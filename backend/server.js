@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from './config';
+import authenticate from './middlewares/authenticate';
 
 
 var ObjectId = mongodb.ObjectID;
@@ -30,7 +31,7 @@ const dbName = 'build_react_app';
 MongoClient.connect(url, function (err, client) {
     if (err) throw err;
     var db = client.db(dbName);
-    app.use('/api/users',(req,res)=>{
+    app.post('/api/users',(req,res)=>{
         validateInput(req.body, commonValidations).then(({ errors, isValid})=>{
             if(isValid){
                 const { full_name, user_name, email, password} = req.body;
@@ -47,7 +48,15 @@ MongoClient.connect(url, function (err, client) {
             }
         });
     });
-    app.use('/api/auth',(req,res)=>{
+    app.post('/api/events',authenticate, (req,res)=>{
+        const { event_title } = req.body;
+        db.collection('events').insert({
+            title:event_title,
+        }).then(event=>{
+            res.json({ status: 'success',event: event.ops[0]});
+        });
+    });
+    app.post('/api/auth',(req,res)=>{
         const { errors, isValid} = validateLoginInput(req.body);
         const { identifier, password} = req.body;
         if(isValid){

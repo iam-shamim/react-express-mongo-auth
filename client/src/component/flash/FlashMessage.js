@@ -7,7 +7,6 @@ class FlashMessage extends Component{
     };
     render(){
         const { id, type, text} = this.props.message;
-        console.log(id, type, text);
         return(
             <div className={classnames('alert',{
                 'alert-success': type === 'success',

@@ -5,6 +5,8 @@ import { Route, Switch } from 'react-router-dom'
 import HomeComponent from "./component/HomeComponent";
 import FlashMessageList from "./component/flash/FlashMessageList";
 import LoginComponent from "./component/LoginComponent";
+import NewEventPage from "./component/events/NewEventPage";
+import requireAuth from "./utils/requireAuth";
 
 class App extends Component {
   render() {
@@ -14,9 +16,10 @@ class App extends Component {
               <NavBarComponent />
               <FlashMessageList/>
               <Switch>
+                  <Route path="/new-event" exact  component={requireAuth(NewEventPage)} />
                   <Route path="/signup" exact  component={SignUpComponent} />
                   <Route path="/login" exact  component={LoginComponent} />
-                  <Route path="/" exact component={HomeComponent} />
+                  <Route path="/" exact component={(HomeComponent)} />
               </Switch>
           </div>
       </div>
