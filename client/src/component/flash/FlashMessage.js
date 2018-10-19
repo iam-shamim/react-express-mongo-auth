@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 
 class FlashMessage extends Component{
+    state = {
+
+    };
     onClick = ()=>{
         this.props.deleteFlashMessage(this.props.message.id)
     };

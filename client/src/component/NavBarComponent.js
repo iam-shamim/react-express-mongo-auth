@@ -10,36 +10,51 @@ class NavBarComponent extends Component {
     };
     render(){
         const { isAuthenticated } = this.props.auth;
-        const userLinks = (
-            <ul className="nav navbar-nav navbar-right">
-                <li><Link to="new-event">New Event</Link></li>
-                <li><a href="#" onClick={this.onLogout}>Logout</a></li>
-            </ul>
-        );
-        const guestLinks = (
-            <ul className="nav navbar-nav navbar-right">
-                <li><Link to="login">Login</Link></li>
-                <li><Link to="signup">Sign up</Link></li>
-            </ul>
-        );
         return (
-            <nav className="navbar navbar-default">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-                        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span className="sr-only">Toggle navigation</span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                        </button>
-                        <Link to="/" className="navbar-brand">Home</Link>
+            <div>
+                <header className="navbar navbar-default navbar-fixed-top navbar-top">
+                    <div className="container">
+                        <div className="navbar-header">
+                            <button data-target=".navbar-collapse" data-toggle="collapse" className="navbar-toggle"
+                                    type="button">
+                                <span className="sr-only">Toggle navigation</span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                            </button>
+                            <Link to="/" className="navbar-brand">
+                                <span className="logo">
+                                <i className="fa fa-recycle"></i> Library</span>
+                            </Link>
+                        </div>
+
+                        <div className="navbar-collapse collapse">
+                            <ul className="nav navbar-nav navbar-right">
+                                {
+                                    isAuthenticated === false && (
+                                        <li><Link to="/login" className="navbar-brand">Login</Link></li>
+                                    )
+                                }
+                                {
+                                    isAuthenticated === true && (
+                                        <li className="dropdown">
+                                            <a className="dropdown-toggle" href="#" data-toggle="dropdown">
+                                                <i className="fa fa-user"></i> <strong className="caret"></strong>&nbsp;
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li><a href="#"><i className="fa fa-wrench"></i> Settings</a></li>
+                                                <li><a href="" onClick={this.onLogout}><i className="fa fa-sign-out"></i> Log Out</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    )
+                                }
+
+                            </ul>
+                        </div>
                     </div>
-                    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        { isAuthenticated? userLinks : guestLinks }
-                    </div>
-                </div>
-            </nav>
+                </header>
+            </div>
         );
     }
 }

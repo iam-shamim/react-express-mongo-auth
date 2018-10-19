@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import UserModel from '../Models/UserModel';
 
 export default (req, res, next) => {
     const authorizationHeader = req.headers['authorization'];
@@ -12,13 +13,19 @@ export default (req, res, next) => {
             if(err){
                 res.status(401).json({ errors: {global: 'Failed to authenticate'}});
             }else{
-                // check users
-                let user = true;
-                if(!user){
-                    res.status(404).json({ errors: {global: 'No such user'}});
-                }
-                req.currentUser = decode;
-                next();
+                const userFind = UserModel.findOne({
+                    _id: decode._id,
+                    email: decode.email,
+                }).then((user)=>{
+                    if(user){
+                        req.currentUser = decode;
+                        next();
+
+                    }else{
+                        res.status(401).json({ errors: { form: 'Invalid Credentials'}});
+                    }
+                });
+
             }
         });
     }else{

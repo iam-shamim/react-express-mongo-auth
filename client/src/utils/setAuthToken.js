@@ -1,9 +1,9 @@
-import axios from 'axios';
+import server from "../server";
 
 export default function setAuthToken(token){
     if(token){
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        server.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }else{
-        delete axios.defaults.headers.common['Authorization'];
+        delete server.defaults.headers.common['Authorization'];
     }
 };

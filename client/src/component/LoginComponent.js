@@ -30,7 +30,6 @@ class LoginComponent extends Component{
         });
     };
     onSubmit = (event)=>{
-        this.setState({ errors: {} });
         event.preventDefault();
         const { errors, isValid } = this.validateInput(this.state);
         if(!isValid){
@@ -40,12 +39,10 @@ class LoginComponent extends Component{
             this.props.login({
                 identifier: this.state.identifier,
                 password: this.state.password
-            }).then(()=>{
-                this.props.addFlashMessage({
-                    type: 'success',
-                    text: 'You login successfully. welcome!',
-                });
-                this.props.history.push("/");
+            }).then((res)=>{
+                if(res.status === true){
+                    this.props.history.push("/");
+                }
             }).catch((errors)=> {
                 this.props.addFlashMessage({
                     type: 'error',
@@ -59,22 +56,40 @@ class LoginComponent extends Component{
     render(){
         return(
           <div className="row">
-              <div className="col-md-6 col-md-offset-3">
-                  <form onSubmit={this.onSubmit}>
-                      <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.identifier } )}>
-                          <label htmlFor="" className="control-label">User Name / Email</label>
-                          <input type="text" className="form-control" name="identifier" value={this.state.identifier} onChange={this.onChange} />
-                          <span className="text-danger">{ this.state.errors.identifier }</span>
+              <div className="col-sm-5 login-form">
+                  <div className="panel panel-default">
+                      <div className="panel-intro text-center">
+                          <h1 className="logo"><i className="fa fa-recycle"></i> Library</h1>
                       </div>
-                      <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.password } )}>
-                          <label htmlFor="" className="control-label">Password</label>
-                          <input type="password" className="form-control" name="password" value={this.state.password} onChange={this.onChange} />
-                          <span className="text-danger">{ this.state.errors.password }</span>
+                      <div className="panel-body">
+                          <form onSubmit={this.onSubmit}>
+                                  <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.identifier } )}>
+                                      <input type="text" placeholder="Email" className="form-control input-lg" name="identifier" value={this.state.identifier} onChange={this.onChange}/>
+                                      <span className="text-danger">{ this.state.errors.identifier }</span>
+                                  </div>
+                                  <div className="form-group">
+                                      <input type="password" placeholder="Password" className="form-control input-lg" name="password" value={this.state.password} onChange={this.onChange} />
+                                      <span className="text-danger">{ this.state.errors.password }</span>
+                                  </div>
+                                  <div className="form-group">
+                                      <button  type="submit" className="btn btn-block btn-custom" disabled={this.state.isLoading}>Login</button>
+                                  </div>
+                          </form>
+                          <div><p className="text-center">Login With</p></div>
+                          <div className="text-center">
+                              <a href="#" className="m-r10"><i className="fa fa-facebook-official fa-2x"></i></a>
+                              <a href="#" className="m-r10"><i className="fa fa-google fa-2x"></i></a>
+                              <a href="#"><i className="fa fa-twitter fa-2x"></i></a>
+                              <a href="#" className="m-r10"><i className="fa fa-linkedin fa-2x"></i></a>
+                              <a href="#" className="m-r10"><i className="fa fa-github fa-2x"></i></a>
+                              <a href="#" className="m-r10"><i className="fa fa-bitbucket fa-2x"></i></a>
+                          </div>
                       </div>
-                      <div className="form-group">
-                          <button type="submit" className="btn btn-primary" disabled={this.state.isLoading}>Login</button>
+                      <div className="panel-footer">
+                          <p className="text-center pull-right"><a href="#" className="btn-block text-center">Forgot password?</a></p>
+                          <div className="clearfix"></div>
                       </div>
-                  </form>
+                  </div>
               </div>
           </div>
         );

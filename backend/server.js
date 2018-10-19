@@ -1,5 +1,5 @@
 import express from 'express'
-import mongodb from 'mongodb';
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors'
 import users from './routes/users'
@@ -9,135 +9,107 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from './config';
 import authenticate from './middlewares/authenticate';
+import commonValidations from './validations/commonValidations';
+import YearModel from './Models/YearModel';
+import UserModel from './Models/UserModel';
 
 
-var ObjectId = mongodb.ObjectID;
-var MongoClient = mongodb.MongoClient;
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'build_react_app';
+mongoose.connect('mongodb://localhost:27017/library');
 
 
+app.get('/api/setup/year',authenticate, (req,res)=>{
+    YearModel.find().then((years)=>{
+        res.json({ years });
+    });
+});
 
-MongoClient.connect(url, function (err, client) {
-    if (err) throw err;
-    var db = client.db(dbName);
-    app.post('/api/users',(req,res)=>{
-        validateInput(req.body, commonValidations).then(({ errors, isValid})=>{
-            if(isValid){
-                const { full_name, user_name, email, password} = req.body;
-                const password_digest = bcrypt.hashSync(password, 10);
-                db.collection('users').insert({
-                    full_name,
-                    user_name,
-                    email,
-                    password: password_digest
-                });
-                res.send(req.body);
+app.delete('/api/setup/year',authenticate, (req,res)=>{
+    const {  _id } = req.body;
+    const update = YearModel.findOneAndDelete({_id:_id}).then(()=>{
+        res.json({
+            success: true
+        })
+    });
+});
+app.put('/api/setup/year',authenticate, (req,res)=>{
+    const { yearName, _id } = req.body;
+    const { errors, isValid } = commonValidations({yearName},{
+        yearName: 'required'
+    });
+
+    if(isValid){
+        const update = YearModel.findOneAndUpdate({_id:_id},{$set:{name: yearName}},{ new:true }).then((year)=>{
+            res.json({ year });
+        });
+    }else{
+        res.status(400).json({ errors });
+    }
+});
+app.post('/api/setup/year',authenticate, (req,res)=>{
+    const { yearName } = req.body;
+    const { errors, isValid } = commonValidations({yearName},{
+        yearName: 'required'
+    });
+
+    if(isValid){
+        const Year = new YearModel({
+            name: yearName
+        });
+        Year.save().then((year)=>{
+            res.json({ year });
+        });
+    }else{
+        res.status(400).json({ errors });
+    }
+});
+app.post('/api/auth',(req,res)=>{
+    const { errors, isValid} = validateLoginInput(req.body);
+    const { identifier, password} = req.body;
+    if(isValid){
+        const userFind = UserModel.findOne({
+            email: identifier
+        }).then((user)=>{
+            if(user && bcrypt.compareSync(password,user.password)){
+                const token = jwt.sign({
+                    _id: user._id,
+                    email: user.email
+                }, config.jwtSecret);
+                res.json({ token });
             }else{
-                res.status(400).json({ errors });
+                res.status(401).json({ errors: { form: 'Invalid Credentials'}});
             }
         });
-    });
-    app.post('/api/events',authenticate, (req,res)=>{
-        const { event_title } = req.body;
-        db.collection('events').insert({
-            title:event_title,
-        }).then(event=>{
-            res.json({ status: 'success',event: event.ops[0]});
-        });
-    });
-    app.post('/api/auth',(req,res)=>{
-        const { errors, isValid} = validateLoginInput(req.body);
-        const { identifier, password} = req.body;
-        if(isValid){
-            db.collection('users').findOne({
-                $or:[
-                    {email: identifier},
-                    {user_name: identifier}
-                ]
-            }).then(user=>{
-                if(user){
-                    if(bcrypt.compareSync(password,user.password)){
-                        const token = jwt.sign({
-                            id: user._id,
-                            user_name: user.user_name
-                        }, config.jwtSecret);
-                        res.json({ token });
+    }else{
+        res.status(400).json({ errors });
+    }
+});
 
-                    }else{
-                        res.status(401).json({ errors: { form: 'Invalid Credentials'}});
-                    }
-                }
-            });
-        }else{
-            res.status(400).json({ errors });
+
+app.use((req, res)=>{
+    res.status(404).json({
+        errors: {
+            global: 'Something wrong.'
         }
     });
-
-    app.use((req, res)=>{
-        res.status(404).json({
-            errors: {
-                global: 'Something wrong.'
-            }
-        });
-    });
-
-    app.listen('8081',()=> console.log('Server is running on localhost:8081'));
-
-    const validateInput = (data,otherValidation)=> {
-        let { errors } = otherValidation(data);
-
-        return Promise.all([
-            db.collection('users').findOne({email: data.email}).then(res=>{
-                if(res) { errors.email = 'There is user with such email' }
-            }),
-            db.collection('users').findOne({user_name: data.user_name}).then(res=>{
-                if(res) { errors.user_name = 'There is user with such username' }
-            })
-        ]).then(()=>{
-            return {
-                errors,
-                isValid: isEmpty(errors)
-            }
-        });
-
-
-    };
-    const commonValidations = (data) => {
-        let errors = {};
-
-        if(Validator.isEmpty(data.full_name)) errors.full_name = 'This field is required';
-        if(Validator.isEmpty(data.user_name)) errors.user_name = 'This field is required';
-        if(Validator.isEmpty(data.email)) errors.email = 'This field is required';
-        if(!Validator.isEmail(data.email)) errors.email = 'Email is invalid';
-        if(Validator.isEmpty(data.password)) errors.password = 'This field is required';
-        if(Validator.isEmpty(data.confirm_password)) errors.confirm_password = 'This field is required';
-        if(!Validator.equals(data.password,data.confirm_password)) errors.confirm_password = 'Password must match';
-
-        return {
-            errors,
-            isValid: isEmpty(errors)
-        };
-    };
-    const validateLoginInput = (data) => {
-        let errors = {};
-
-        if(Validator.isEmpty(data.identifier)) errors.identifier = 'This field is required';
-        if(Validator.isEmpty(data.password)) errors.password = 'This field is required';
-
-        return {
-            errors,
-            isValid: isEmpty(errors)
-        };
-    };
 });
+const validateLoginInput = (data) => {
+    let errors = {};
+
+    if(Validator.isEmpty(data.identifier)) errors.identifier = 'This field is required';
+    if(Validator.isEmpty(data.password)) errors.password = 'This field is required';
+
+    return {
+        errors,
+        isValid: isEmpty(errors)
+    };
+};
+
+app.listen('8081',()=> console.log('Server is running on localhost:8081'));
