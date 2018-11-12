@@ -5,7 +5,7 @@ import { addFlashMessage } from '../store/actions/flash'
 import className from 'classnames';
 import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty'
-import { Redirect } from 'react-router-dom'
+import {toastr} from 'react-redux-toastr'
 
 class LoginComponent extends Component{
     state = {
@@ -44,11 +44,12 @@ class LoginComponent extends Component{
                     this.props.history.push("/");
                 }
             }).catch((errors)=> {
-                this.props.addFlashMessage({
-                    type: 'error',
-                    text:  errors.response.errors.form,
-                });
-                this.setState({ isLoading: false })
+                if(errors.response.errors._flash){
+                    toastr.error("Error",errors.response.errors._flash);
+                    this.setState({ isLoading: false})
+                }else{
+                    this.setState({ isLoading: false, errors: errors.response.errors })
+                }
             });
         }
 
@@ -72,21 +73,14 @@ class LoginComponent extends Component{
                                       <span className="text-danger">{ this.state.errors.password }</span>
                                   </div>
                                   <div className="form-group">
+                                      {this.state.errors.global && (<p className="text-danger text-center">{this.state.errors.global}</p>)}
                                       <button  type="submit" className="btn btn-block btn-custom" disabled={this.state.isLoading}>Login</button>
                                   </div>
                           </form>
                           <div><p className="text-center">Login With</p></div>
-                          <div className="text-center">
-                              <a href="#" className="m-r10"><i className="fa fa-facebook-official fa-2x"></i></a>
-                              <a href="#" className="m-r10"><i className="fa fa-google fa-2x"></i></a>
-                              <a href="#"><i className="fa fa-twitter fa-2x"></i></a>
-                              <a href="#" className="m-r10"><i className="fa fa-linkedin fa-2x"></i></a>
-                              <a href="#" className="m-r10"><i className="fa fa-github fa-2x"></i></a>
-                              <a href="#" className="m-r10"><i className="fa fa-bitbucket fa-2x"></i></a>
-                          </div>
                       </div>
                       <div className="panel-footer">
-                          <p className="text-center pull-right"><a href="#" className="btn-block text-center">Forgot password?</a></p>
+                          {/*<p className="text-center pull-right"><a href="" className="btn-block text-center">Forgot password?</a></p>*/}
                           <div className="clearfix"></div>
                       </div>
                   </div>

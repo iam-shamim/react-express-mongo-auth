@@ -896,3 +896,4 @@ ul.author-menus-sub li{}
 .edit-area{float: right;right: 10px;top: 0;font-size: 12px;text-transform: uppercase;padding: 0 6px;border-radius: 3px;background: #d2d2d2;}
 .delete-area{float: right;right: 10px;top: 0;font-size: 12px;text-transform: uppercase;padding: 0 6px;border-radius: 3px;background: #d2d2d2;}
 .editing-area{background: #696969;color: #FFF;}
+.is-active{color:#59b857;}

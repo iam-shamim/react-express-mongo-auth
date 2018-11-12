@@ -96,5 +96,6 @@ a:hover, a:focus {text-decoration: none;}
 .font-mid-xm{font-size:1.7em}
 .font-mid-lg{font-size:1.7em}
 .font-mid-xl{font-size:1.8em}
-
+.none{display: none;}
+.block{display: block;}
 label.required:after, span.required:after {content: "*";color: red;font-size: 1.2em;margin-left: 3px;  }

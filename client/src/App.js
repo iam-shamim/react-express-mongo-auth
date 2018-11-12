@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 import NavBarComponent from "./component/NavBarComponent";
-import SignUpComponent from "./component/SignUpComponent";
 import {Link, Route, Switch} from 'react-router-dom'
 import HomeComponent from "./component/HomeComponent";
-import FlashMessageList from "./component/flash/FlashMessageList";
 import LoginComponent from "./component/LoginComponent";
-import NewEventPage from "./component/events/NewEventPage";
 import requireAuth from "./utils/requireAuth";
 import LogoutComponent from "./component/LogoutComponent";
 import notAuth from "./utils/notAuth";
 import InstituteHeader from "./component/flash/InstituteHeader";
-import InstituteComponent from "./component/InstituteComponent";
+import ReduxToastr from 'react-redux-toastr'
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+          <ReduxToastr
+              timeOut={6000}
+              newestOnTop={false}
+              position="top-right"
+              transitionIn="fadeIn"
+              transitionOut="fadeOut"
+              progressBar
+              closeOnToastrClick
+          />
           <div className="container">
               <NavBarComponent />
           </div>
@@ -23,11 +30,9 @@ class App extends Component {
               <section className="main no-padding">
                   <InstituteHeader/>
                   <div className="container">
-                      <FlashMessageList/>
                       <Switch>
-                          <Route path="/signup" exact  component={notAuth(SignUpComponent)} />
                           <Route path="/login" exact  component={notAuth(LoginComponent)} />
-                          <Route path="/logout" exact component={requireAuth(LogoutComponent)} />
+                          <Route path="/logout" exact component={LogoutComponent} />
                           <Route component={requireAuth(HomeComponent)} />
                       </Switch>
                   </div>

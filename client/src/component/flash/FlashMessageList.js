@@ -7,6 +7,9 @@ class FlashMessageList extends Component{
     deleteFlashMessage = (id)=>{
         this.props.deleteFlashMessage(id);
     };
+    componentWillReceiveProps(nextProps){
+        console.log('nextProps: ',nextProps);
+    }
     render(){
         const message = this.props.messages.map(message=>{
             return <FlashMessage key={message.id} message={message} deleteFlashMessage={this.deleteFlashMessage}/>

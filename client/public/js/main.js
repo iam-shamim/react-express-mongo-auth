@@ -3,7 +3,7 @@ $(document).ready(function () {
    $('.select2-results__options li').fadeOut(0);
 });
 
-$(document).on('click','.author-menus li a.dropdown',function (event) {
+$(document).on('click','a.dropdown',function (event) {
     event.preventDefault();
     $(this).parents().children('.author-menus-sub').slideToggle();
 });

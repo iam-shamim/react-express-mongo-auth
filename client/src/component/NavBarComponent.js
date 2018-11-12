@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { logout } from "../store/actions/authAction";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class NavBarComponent extends Component {
     onLogout = (e) => {
@@ -38,12 +37,12 @@ class NavBarComponent extends Component {
                                 {
                                     isAuthenticated === true && (
                                         <li className="dropdown">
-                                            <a className="dropdown-toggle" href="#" data-toggle="dropdown">
+                                            <span className="dropdown-toggle pointer" data-toggle="dropdown">
                                                 <i className="fa fa-user"></i> <strong className="caret"></strong>&nbsp;
-                                            </a>
+                                            </span>
                                             <ul className="dropdown-menu">
-                                                <li><a href="#"><i className="fa fa-wrench"></i> Settings</a></li>
-                                                <li><a href="" onClick={this.onLogout}><i className="fa fa-sign-out"></i> Log Out</a>
+                                                <li>
+                                                    <Link to="/logout"> <i className="fa fa-sign-out"></i> Log Out </Link>
                                                 </li>
                                             </ul>
                                         </li>
@@ -63,4 +62,4 @@ function mapStateToProps(state) {
         auth: state.auth
     }
 }
-export default connect(mapStateToProps, { logout })(NavBarComponent);
+export default connect(mapStateToProps)(NavBarComponent);

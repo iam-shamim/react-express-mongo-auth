@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
 import LeftMenuComponent from "./LeftMenuComponent";
-import InstituteComponent from "./InstituteComponent";
-import {Link, Route, Switch} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import requireAuth from "../utils/requireAuth";
-import NewEventPage from "./events/NewEventPage";
-import notAuth from "../utils/notAuth";
-import SignUpComponent from "./SignUpComponent";
-import LoginComponent from "./LoginComponent";
-import LogoutComponent from "./LogoutComponent";
+
 import YearsComponent from "./setup/Year/YearsComponent";
+import DepartmentsComponent from "./setup/Department/DepartmentsComponent";
+import ShiftsComponent from "./setup/Shift/ShiftsComponent";
+import LanguagesComponent from "./setup/Language/LanguagesComponent";
+import CategoriesComponent from "./setup/Category/CategoriesComponent";
+import AddBooksComponent from "./Books/AddBooksComponent";
+import BooksListComponent from "./Books/BooksListComponent";
+import AddStudentsComponent from "./Books/AddStudentsComponent";
 
 class HomeComponent extends Component{
+
     render(){
         return(
             <div className="row">
                 <div className="col-md-3 col-sm-3">
-                    <LeftMenuComponent/>
+                    <LeftMenuComponent {...this.props}/>
                 </div>
                 <div className="col-md-9 col-sm-9">
                     <Switch>
                         <Route path="/setup/year" exact  component={requireAuth(YearsComponent)} />
-                        <Route path="/institute" exact  component={InstituteComponent} />
+                        <Route path="/setup/department" exact  component={requireAuth(DepartmentsComponent)} />
+                        <Route path="/setup/shift" exact  component={requireAuth(ShiftsComponent)} />
+                        <Route path="/setup/language" exact  component={requireAuth(LanguagesComponent)} />
+                        <Route path="/setup/category" exact  component={requireAuth(CategoriesComponent)} />
+                        <Route path="/books/add" exact  component={requireAuth(AddBooksComponent)} />
+                        <Route path="/books/list" exact  component={requireAuth(BooksListComponent)} />
+                        <Route path="/books/:id/edit" exact  component={requireAuth(AddBooksComponent)} />
+                        <Route path="/students/add" exact  component={requireAuth(AddStudentsComponent)} />
                     </Switch>
                 </div>
             </div>

@@ -1,19 +1,23 @@
 var Validator = require('validator');
-const commonValidations = (data,roles) => {
+const commonValidations = (data,roles,msg) => {
     let errors = {};
+    //validation:
     for(const role in roles){
         const roleList = roles[role].split('|');
         for(const list in roleList){
             const allExp = roleList[list].split(':');
-            const roleName = allExp;
             const validation = rolesFunc[allExp[0]]({
                 value: data[role],
                 filed: role,
                 role: allExp
             });
             if(validation !== true){
-                errors[role] = validation;
-                break; break;
+                if(msg && msg[role] && msg[role][allExp[0]]){
+                    errors[role] = msg[role][allExp[0]];
+                }else{
+                    errors[role] = validation;
+                }
+                break;
             }
         }
     }
@@ -24,11 +28,21 @@ const commonValidations = (data,roles) => {
 };
 const rolesFunc = {
     required: (data)=>{
-        const {value} = data;
-        if(value==undefined || Validator.isEmpty(value)){
-            return 'This field is required'
+        try{
+            const {value} = data;
+            if(value === undefined){
+                throw new Error('This field is required')
+            }else if( typeof value === 'object' ){
+                if(value.length === 0){
+                    throw new Error('This field is required')
+                }
+            }else if(value.toString().trim() === ''){
+                throw new Error('This field is required')
+            }
+            return true;
+        }catch (e) {
+            return e.message;
         }
-        return true;
     },
     max: (data)=>{
         const {value,role} = data;

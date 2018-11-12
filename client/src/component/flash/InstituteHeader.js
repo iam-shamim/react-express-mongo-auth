@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Link} from "react-router-dom";
 
 class InstituteHeader extends Component{
     render(){
@@ -16,7 +17,7 @@ class InstituteHeader extends Component{
                             <div className="profile_summary">
                                 <h3 className="profile_name">Nurun Nobi Shamim</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci aliquid facere ipsum magnam maxime molestiae nemo numquam quod, rerum suscipit tempore temporibus unde? Amet earum eveniet repellat soluta voluptatem!</p>
-                                <a href="#" className="btn btn-primary btn-warning btn-sm"><i className="fa fa-sign-out"></i> Sign Out</a>
+                                <Link to="/logout" className="btn btn-primary btn-warning btn-sm"><i className="fa fa-sign-out"></i> Sign Out</Link>
                             </div>
                         </div>
                     </div>

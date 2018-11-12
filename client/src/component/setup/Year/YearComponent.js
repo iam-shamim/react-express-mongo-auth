@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default ({name, _id, editYear, deleteYear, editing_id}) => (
+export default ({sl, name, _id, editYear, deleteYear, editing_id}) => (
     <tr>
+        <td>{sl}</td>
         <td>{ name }</td>
         <td>
             <button className="delete-area" onClick={()=>deleteYear(_id)}>
