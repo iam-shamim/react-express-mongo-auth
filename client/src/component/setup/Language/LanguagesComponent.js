@@ -112,6 +112,7 @@ class LanguagesComponent extends Component{
         });
     };
     componentDidMount(){
+        document.title = "Add Language";
         if(this.props.languages.length===0){
             this.setState({dataLoading: true});
         }

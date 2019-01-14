@@ -120,6 +120,7 @@ class AddBooksComponent extends Component{
 
     componentDidMount(){
         if(this.props.match.params.id){
+            document.title = "Edit Book";
             this.setState({dataLoading: true});
             server.get('/api/books/'+this.props.match.params.id).then((res)=>{
                 const book = res.data.book;
@@ -139,6 +140,8 @@ class AddBooksComponent extends Component{
                 this.setState({dataLoading: false});
                 toastr.error('Error',errors.response.data.error);
             })
+        }else{
+            document.title = "Add Book";
         }
         this.props.getCategory().then().catch(()=>{});
         this.props.getLanguage().then().catch(()=>{});

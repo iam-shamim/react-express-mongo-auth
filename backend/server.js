@@ -8,8 +8,8 @@ import shift from './routes/shift'
 import language from './routes/language'
 import category from './routes/category'
 import books from './routes/books'
-import Validator from "validator";
-import isEmpty from 'lodash/isEmpty'
+import students from './routes/students'
+
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from './config';
@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 mongoose.connect('mongodb://localhost:27017/library');
 
 
+app.use('/api/students',students);
 app.use('/api/setup/years',year);
 app.use('/api/setup/departments',department);
 app.use('/api/setup/shifts',shift);

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 var Schema = mongoose.Schema;
-var YearSchema = new Schema({
+var DepartmentSchema = new Schema({
     name: String,
     created_at: {
         type: Date,
         default: Date.now
     }
 });
-const DepartmentModel = mongoose.model('department', YearSchema);
+const DepartmentModel = mongoose.model('department', DepartmentSchema);
 
 module.exports = DepartmentModel;

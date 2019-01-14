@@ -10,13 +10,13 @@ class InstituteHeader extends Component{
                     <div className="row">
                         <div className="col-sm-4 col-md-3 col-lg-2">
                             <div className="profile_avatar">
-                                <img src="http://jobs.shamim.rocks/img/people/13f4c2b413086f283eca508f281c0c8b.jpg" alt="avatar" className="img-responsive" id="show" />
+                                <img src="/img/logo.png" alt="avatar" className="img-responsive" id="show" />
                             </div>
                         </div>
                         <div className="col-sm-8 col-md-9 col-lg-10">
                             <div className="profile_summary">
-                                <h3 className="profile_name">Nurun Nobi Shamim</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci aliquid facere ipsum magnam maxime molestiae nemo numquam quod, rerum suscipit tempore temporibus unde? Amet earum eveniet repellat soluta voluptatem!</p>
+                                <h3 className="profile_name">Feni Computer Institute</h3>
+                                <p>Feni Computer Institute is the first and only ICT Based polytechnic institute for Diploma in Engineering courses in Feni Sadar Upazila, Bangladesh. Founded in 2003, It is directed under Bangladesh Technical Education Board. </p>
                                 <Link to="/logout" className="btn btn-primary btn-warning btn-sm"><i className="fa fa-sign-out"></i> Sign Out</Link>
                             </div>
                         </div>

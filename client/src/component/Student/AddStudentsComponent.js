@@ -68,7 +68,7 @@ class AddStudentsComponent extends Component{
             }else{
                 this.props.updateStudent(this.state.form).then(()=>{
                     this.setState({isLoading: false});
-                    toastr.success('Success','Book successfully updated');
+                    toastr.success('Success','Student successfully updated');
                 }).catch((errors)=>{
                     if(errors.response.errors._flash){
                         toastr.error("Error",errors.response.errors._flash);
@@ -117,21 +117,22 @@ class AddStudentsComponent extends Component{
     };
 
     componentDidMount(){
+        document.title = "Add Student";
         if(this.props.match.params.id){
             this.setState({dataLoading: true});
-            server.get('/api/books/'+this.props.match.params.id).then((res)=>{
-                const book = res.data.book;
-                console.log(book);
+            server.get('/api/students/'+this.props.match.params.id).then((res)=>{
+                const student = res.data.student;
                 this.setState({dataLoading: null,
                     form: {
-                        _id: book._id,
-                        name: book.name,
-                        writer: book.writer,
-                        publisher: book.publisher,
-                        language: book.language,
-                        items: book.items,
-                        details: book.details,
-                        categories: book.categories
+                        _id: student._id,
+                        name: student.name,
+                        father_name: student.father_name,
+                        department: student.department,
+                        shift: student.shift,
+                        year: student.year,
+                        roll: student.roll,
+                        registration: student.registration,
+                        gender: student.gender
                     },});
             }).catch((errors)=>{
                 this.setState({dataLoading: false});
@@ -169,68 +170,76 @@ class AddStudentsComponent extends Component{
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-4">
-                                <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.department } )}>
-                                    <label htmlFor="department" className="required">
-                                        Department
-                                    </label>
-                                    <select className="form-control" id="department" name="department" value={this.state.form.department} onChange={this.onChange} >
-                                        <option value="">Select Department</option>
-                                        { this.props.departments.map(department => <option value={department._id} key={department._id}>{department.name}</option> ) }
-                                    </select>
-                                    <span className="text-danger">{ this.state.errors.department }</span>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.shift } )}>
-                                    <label htmlFor="language" className="required">
-                                        Shift
-                                    </label>
-                                    <select className="form-control" id="shift" name="shift" value={this.state.form.shift} onChange={this.onChange} >
-                                        <option value="">Select Shift</option>
-                                        { this.props.shifts.map(shift => <option value={shift._id} key={shift._id}>{shift.name}</option> ) }
-                                    </select>
-                                    <span className="text-danger">{ this.state.errors.language }</span>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.year } )}>
-                                    <label htmlFor="year" className="required">
-                                        Year
-                                    </label>
-                                    <select className="form-control" id="year" name="year" value={this.state.form.year} onChange={this.onChange} >
-                                        <option value="">Select Year</option>
-                                        { this.props.years.map(year => <option value={year._id} key={year._id}>{year.name}</option> ) }
-                                    </select>
-                                    <span className="text-danger">{ this.state.errors.year }</span>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="form-group">
-                                    <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.roll } )}>
-                                        <label htmlFor="roll" className="required"> Roll</label>
-                                        <input type="text" autoComplete="off" className="form-control"  placeholder="Roll No" id="roll" name="roll" value={this.state.form.roll} onChange={this.onChange}/>
-                                        <span className="text-danger">{ this.state.errors.roll }</span>
+                            <div className="col-xs-12">
+                                <div className="row">
+                                    <div className="col-sm-4">
+                                        <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.department } )}>
+                                            <label htmlFor="department" className="required">
+                                                Department
+                                            </label>
+                                            <select className="form-control" id="department" name="department" value={this.state.form.department} onChange={this.onChange} >
+                                                <option value="">Select Department</option>
+                                                { this.props.departments.map(department => <option value={department._id} key={department._id}>{department.name}</option> ) }
+                                            </select>
+                                            <span className="text-danger">{ this.state.errors.department }</span>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.shift } )}>
+                                            <label htmlFor="language" className="required">
+                                                Shift
+                                            </label>
+                                            <select className="form-control" id="shift" name="shift" value={this.state.form.shift} onChange={this.onChange} >
+                                                <option value="">Select Shift</option>
+                                                { this.props.shifts.map(shift => <option value={shift._id} key={shift._id}>{shift.name}</option> ) }
+                                            </select>
+                                            <span className="text-danger">{ this.state.errors.language }</span>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.year } )}>
+                                            <label htmlFor="year" className="required">
+                                                Year
+                                            </label>
+                                            <select className="form-control" id="year" name="year" value={this.state.form.year} onChange={this.onChange} >
+                                                <option value="">Select Year</option>
+                                                { this.props.years.map(year => <option value={year._id} key={year._id}>{year.name}</option> ) }
+                                            </select>
+                                            <span className="text-danger">{ this.state.errors.year }</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-4">
-                                <div className="form-group">
-                                    <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.registration } )}>
-                                        <label htmlFor="registration" className="required"> Registration</label>
-                                        <input type="text" autoComplete="off" className="form-control"  placeholder="Registration Number" id="registration" name="registration" value={this.state.form.registration} onChange={this.onChange}/>
-                                        <span className="text-danger">{ this.state.errors.registration }</span>
+                            <div className="col-xs-12">
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <div className="form-group">
+                                            <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.roll } )}>
+                                                <label htmlFor="roll" className="required"> Roll</label>
+                                                <input type="text" autoComplete="off" className="form-control"  placeholder="Roll No" id="roll" name="roll" value={this.state.form.roll} onChange={this.onChange}/>
+                                                <span className="text-danger">{ this.state.errors.roll }</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="form-group">
-                                    <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.gender } )}>
-                                        <label htmlFor="gender" className="required"> Gender</label>
-                                        <select  name="gender" className="form-control" id="gender" value={this.state.form.gender} onChange={this.onChange}>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                        </select>
+                                    <div className="col-md-4">
+                                        <div className="form-group">
+                                            <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.registration } )}>
+                                                <label htmlFor="registration" className="required"> Registration</label>
+                                                <input type="text" autoComplete="off" className="form-control"  placeholder="Registration Number" id="registration" name="registration" value={this.state.form.registration} onChange={this.onChange}/>
+                                                <span className="text-danger">{ this.state.errors.registration }</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="form-group">
+                                            <div className={className('form-group', 'has-feedback',{ 'has-error': this.state.errors.gender } )}>
+                                                <label htmlFor="gender" className="required"> Gender</label>
+                                                <select  name="gender" className="form-control" id="gender" value={this.state.form.gender} onChange={this.onChange}>
+                                                    <option value="1">Male</option>
+                                                    <option value="2">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

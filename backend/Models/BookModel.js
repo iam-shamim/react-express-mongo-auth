@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var paginate = require('mongoose-paginate');
+
 var Schema = mongoose.Schema;
 const BookSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     name: {type: String, required: true},
     writer: {type: String, required: true},
     publisher: {type: String, required: true},
@@ -21,9 +21,6 @@ const BookSchema = new Schema({
     }
 });
 BookSchema.pre('save', function(next) {
-    // do stuff
-    console.log("HI,save");
-    console.log(this.get('items'));
     this.set('current_stock',this.get('items'));
     next();
 });

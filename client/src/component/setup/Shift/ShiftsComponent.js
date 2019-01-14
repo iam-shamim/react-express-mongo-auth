@@ -112,6 +112,7 @@ class ShiftsComponent extends Component{
         });
     };
     componentDidMount(){
+        document.title = "Add Shift";
         if(this.props.shifts.length===0){
             this.setState({dataLoading: true});
         }

@@ -10,7 +10,10 @@ import LanguagesComponent from "./setup/Language/LanguagesComponent";
 import CategoriesComponent from "./setup/Category/CategoriesComponent";
 import AddBooksComponent from "./Books/AddBooksComponent";
 import BooksListComponent from "./Books/BooksListComponent";
-import AddStudentsComponent from "./Books/AddStudentsComponent";
+import AddStudentsComponent from "./Student/AddStudentsComponent";
+import StudentsListComponent from "./Student/StudentsListComponent";
+import ViewStudentsComponent from "./Student/ViewStudentsComponent";
+import ViewBooksComponent from "./Books/ViewBooksComponent";
 
 class HomeComponent extends Component{
 
@@ -30,7 +33,12 @@ class HomeComponent extends Component{
                         <Route path="/books/add" exact  component={requireAuth(AddBooksComponent)} />
                         <Route path="/books/list" exact  component={requireAuth(BooksListComponent)} />
                         <Route path="/books/:id/edit" exact  component={requireAuth(AddBooksComponent)} />
+                        <Route path="/books/:id/view" exact  component={requireAuth(ViewBooksComponent)} />
                         <Route path="/students/add" exact  component={requireAuth(AddStudentsComponent)} />
+                        <Route path="/" exact  component={requireAuth(StudentsListComponent)} />
+                        <Route path="/students/list" exact  component={requireAuth(StudentsListComponent)} />
+                        <Route path="/students/:id/edit" exact  component={requireAuth(AddStudentsComponent)} />
+                        <Route path="/students/:id/view" exact  component={requireAuth(ViewStudentsComponent)} />
                     </Switch>
                 </div>
             </div>

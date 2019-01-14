@@ -40,8 +40,8 @@ class LeftMenuComponent extends Component{
                         <li>
                             <NavLink to="/students" activeClassName="is-active open-dropdown" className="dropdown"><i className="fa fa-graduation-cap"></i> Student </NavLink>
                             <ul className={classNames('author-menus-sub',{'none': this.state.main_menu !== 'students'})}>
-                                <li><NavLink to="/students/add" activeClassName="is-active"><i className="fa fa-angle-right"></i> Student Registration</NavLink></li>
-                                <li><NavLink to="/students/list" activeClassName="is-active"><i className="fa fa-angle-right"></i> Book List</NavLink></li>
+                                <li><NavLink to="/students/add" activeClassName="is-active"><i className="fa fa-angle-right"></i> Student Add</NavLink></li>
+                                <li><NavLink to="/students/list" activeClassName="is-active"><i className="fa fa-angle-right"></i> Student List</NavLink></li>
                             </ul>
                         </li>
                     </ul>

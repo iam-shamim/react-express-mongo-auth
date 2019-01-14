@@ -112,6 +112,7 @@ class YearsComponent extends Component{
         });
     };
     componentDidMount(){
+        document.title = "Add Year";
         if(this.props.years.length===0){
             this.setState({dataLoading: true});
         }

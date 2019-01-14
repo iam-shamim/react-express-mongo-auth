@@ -112,6 +112,7 @@ class DepartmentsComponent extends Component{
       })
     };
     componentDidMount(){
+        document.title = "Add Department";
         if(this.props.departments.length===0){
             this.setState({
                 dataLoading: true

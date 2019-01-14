@@ -112,6 +112,7 @@ class CategoriesComponent extends Component{
         });
     };
     componentDidMount(){
+        document.title = "Add Category";
         if(this.props.categories.length===0){
             this.setState({dataLoading: true});
         }

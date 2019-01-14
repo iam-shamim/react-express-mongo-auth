@@ -9,8 +9,8 @@ import {toastr} from 'react-redux-toastr'
 
 class LoginComponent extends Component{
     state = {
-        identifier: '',
-        password: '',
+        identifier: 'shamim258038@gmail.com',
+        password: '123',
         isLoading: false,
         errors: {}
     };
@@ -77,7 +77,6 @@ class LoginComponent extends Component{
                                       <button  type="submit" className="btn btn-block btn-custom" disabled={this.state.isLoading}>Login</button>
                                   </div>
                           </form>
-                          <div><p className="text-center">Login With</p></div>
                       </div>
                       <div className="panel-footer">
                           {/*<p className="text-center pull-right"><a href="" className="btn-block text-center">Forgot password?</a></p>*/}
