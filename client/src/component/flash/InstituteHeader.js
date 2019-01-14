@@ -17,7 +17,6 @@ class InstituteHeader extends Component{
                             <div className="profile_summary">
                                 <h3 className="profile_name">Feni Computer Institute</h3>
                                 <p>Feni Computer Institute is the first and only ICT Based polytechnic institute for Diploma in Engineering courses in Feni Sadar Upazila, Bangladesh. Founded in 2003, It is directed under Bangladesh Technical Education Board. </p>
-                                <Link to="/logout" className="btn btn-primary btn-warning btn-sm"><i className="fa fa-sign-out"></i> Sign Out</Link>
                             </div>
                         </div>
                     </div>
