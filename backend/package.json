@@ -18,7 +18,7 @@
     "mongodb": "^3.1.4",
     "mongoose": "^5.3.4",
     "mongoose-paginate": "^5.0.3",
-    "validator": "^10.8.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
